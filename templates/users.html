@@ -19,13 +19,13 @@
       </div>
       <div class="modal-body">
 
-        <form action="/users">
+        <form action="/users" method="POST">
           <div class="form-row mb-3">
             <div class="col">
               <input type="text" class="form-control" placeholder="Username" name="username">
             </div>
             <div class="col">
-              <select id="inputState" class="form-control">
+              <select id="inputState" class="form-control" name="role">
                   <option selected value="" disabled>Choose...</option>
                   <option value="administrator">Administrator</option>
                   <option value="storeKeeper">Store Keeper</option>
@@ -49,5 +49,26 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="mt-5">
+    <table class="table table-hover table-dark">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">USERNAME</th>
+            <th scope="col">ROLE</th>
+            <th scope="col">OPTIONS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+        </tbody>
+      </table>
 </div>
 {% endblock %}
