@@ -38,7 +38,7 @@ db = SQL("sqlite:///inventory.db")
 def index():
     # """"Index""""
 
-    return render_template("index.html")
+#     return render_template("index.html")
 
 
 @app.route("/withdraw", methods=["GET", "POST"])
@@ -47,10 +47,10 @@ def withdraw():
     """withdraw stock"""
 
 
-    if request.method == "POST":
+#     if request.method == "POST":
 
         
-        return render_template("index,html")
+#         return render_template("index.html")
 
 
 @app.route("/delete", methods=["GET", "POST"])
@@ -59,12 +59,12 @@ def delete():
     """Delete stock from Inventory"""
 
 
-    if request.method == "POST":
+#     if request.method == "POST":
 
-        # Ensure username was submitted
+#         # Ensure username was submitted
 
-    # User reached route via GET (as by clicking a link or via redirect)
-        return render_template("buy.html")
+#     # User reached route via GET (as by clicking a link or via redirect)
+#         return render_template("buy.html")
 
 
 @app.route("/add", methods=["GET", "POST"])
@@ -73,12 +73,12 @@ def add():
     """Add stock to Inventory"""
 
 
-    if request.method == "POST":
+#     if request.method == "POST":
 
         # Ensure username was submitted
 
     # User reached route via GET (as by clicking a link or via redirect)
-        return render_template("buy.html")
+        # return render_template("buy.html")
 
 
 @app.route("/notify")
@@ -87,52 +87,54 @@ def notify():
     """Notify the need for Re-stocking"""
 
 
-    if request.method == "POST":
+#     if request.method == "POST":
 
-        return render_template("buy.html")
+#         return render_template("buy.html")
 
 
 @app.route("/history")
 # @login_required
 def history():
     """Show history of transactions"""
-    user = session["user_id"]
-    shares = db.execute("SELECT * FROM history WHERE user = :user", user = user)
-    return render_template("history.html", shares=shares)
+    if request.method == 'GET':
+        print("hello")
+        items = db.execute("SELECT users.username, history.id, history.item_name, history.activity, history.date FROM users INNER JOIN history ON users.id = history.user_id")
+        print(items)
+        return render_template("history.html", items=items)
 
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    """Log user in"""
-    # Forget any user_id
-    session.clear()
+# @app.route("/login", methods=["GET", "POST"])
+# def login():
+#     """Log user in"""
+#     # Forget any user_id
+#     session.clear()
 
-    # User reached route via POST (as by submitting a form via POST)
-    if request.method == "POST":
+#     # User reached route via POST (as by submitting a form via POST)
+#     if request.method == "POST":
 
-        # Ensure username was submitted
-        return redirect("/")
+#         # Ensure username was submitted
+#         return redirect("/")
 
-    # User reached route via GET (as by clicking a link or via redirect)
-    else:
-        return render_template("login.html")
-
-
-@app.route("/logout")
-def logout():
-    """Log user out"""
-
-    # Forget any user_id
-    session.clear()
-
-    # Redirect user to login form
-    return redirect("/")
+#     # User reached route via GET (as by clicking a link or via redirect)
+#     else:
+#         return render_template("login.html")
 
 
-@app.route("/register", methods=["GET", "POST"])
-def register():
-    """Register user"""
-    return render_template("/login.html", msg="registration successful, login.")
+# @app.route("/logout")
+# def logout():
+#     """Log user out"""
+
+#     # Forget any user_id
+#     session.clear()
+
+#     # Redirect user to login form
+#     return redirect("/")
+
+
+# @app.route("/register", methods=["GET", "POST"])
+# def register():
+#     """Register user"""
+#     return render_template("/login.html", msg="registration successful, login.")
 
 @app.route("/users", methods=["GET", "POST"])
 def users():
