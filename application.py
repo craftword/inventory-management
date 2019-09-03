@@ -34,7 +34,7 @@ Session(app)
 db = SQL("sqlite:///inventory.db")
 
 @app.route("/")
-@login_required
+# @login_required
 def index():
     # """"Index""""
 
@@ -42,7 +42,7 @@ def index():
 
 
 @app.route("/withdraw", methods=["GET", "POST"])
-@login_required
+# @login_required
 def withdraw():
     """withdraw stock"""
 
@@ -54,7 +54,7 @@ def withdraw():
 
 
 @app.route("/delete", methods=["GET", "POST"])
-@login_required
+# @login_required
 def delete():
     """Delete stock from Inventory"""
 
@@ -68,7 +68,7 @@ def delete():
 
 
 @app.route("/add", methods=["GET", "POST"])
-@login_required
+# @login_required
 def add():
     """Add stock to Inventory"""
 
@@ -82,7 +82,7 @@ def add():
 
 
 @app.route("/notify")
-@login_required
+# @login_required
 def notify():
     """Notify the need for Re-stocking"""
 
@@ -93,7 +93,7 @@ def notify():
 
 
 @app.route("/history")
-@login_required
+# @login_required
 def history():
     """Show history of transactions"""
     user = session["user_id"]
@@ -133,6 +133,31 @@ def logout():
 def register():
     """Register user"""
     return render_template("/login.html", msg="registration successful, login.")
+
+@app.route("/users", methods=["GET", "POST"])
+def users():
+    """Add a User"""
+    if request.method == "GET":
+        return render_template("users.html")
+    elif request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        confirm = request.form.get("confirm")
+        role = request.form.get("role")
+
+        if password != confirm:
+            return apology("Password Mismatch")
+        if not username:
+            return apology("You must input a username")
+        if not role:
+            return apology("You must choose a role")
+        
+        hash = generate_password_hash(password, method='pbkdf2:sha256', salt_length=8)
+        # print("hash=", hash)
+
+        row = db.execute("INSERT INTO users (username, hash, role) VALUES (:username, :hash, :role)", username=username, hash=hash, role=role)
+        print("row=",row)
+        return render_template("/users", row=row)
 
 
 def errorhandler(e):
