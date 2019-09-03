@@ -41,7 +41,7 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/withdraw", methods=["GET", "POST"])
+@app.route("/withdraw")
 # @login_required
 def withdraw():
     """withdraw stock"""
@@ -64,18 +64,20 @@ def delete():
 #         return render_template("buy.html")
 
 
-@app.route("/add", methods=["GET", "POST"])
+@app.route("/add", methods=["GET"])
 # @login_required
 def add():
     """Add stock to Inventory"""
+    id = request.args.get('id')
+    qty = request.args.get('new_qty') 
+    sql = "UPDATE items SET quantity = %s WHERE id = %s" %(qty, id)   
+    row = db.execute(sql)
+                    
+    if row:
+         return jsonify({'msg':'successful updated'})
+    else:
+         return jsonify({'msg':'cannot quantity to the items'})
 
-
-#     if request.method == "POST":
-
-        # Ensure username was submitted
-
-    # User reached route via GET (as by clicking a link or via redirect)
-        # return render_template("buy.html")
 
 
 @app.route("/inventory", methods=["GET", "POST"])
