@@ -1,6 +1,7 @@
-templates
 __pycache__
 craft
 =======
 /venv
 development
+apology.html
+inventory.db

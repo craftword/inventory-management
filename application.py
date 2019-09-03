@@ -34,105 +34,134 @@ Session(app)
 db = SQL("sqlite:///inventory.db")
 
 @app.route("/")
-@login_required
+# @login_required
 def index():
     # """"Index""""
 
-    return render_template("index.html")
+#     return render_template("index.html")
 
 
 @app.route("/withdraw", methods=["GET", "POST"])
-@login_required
+# @login_required
 def withdraw():
     """withdraw stock"""
 
 
-    if request.method == "POST":
+#     if request.method == "POST":
 
         
-        return render_template("index,html")
+#         return render_template("index.html")
 
 
 @app.route("/delete", methods=["GET", "POST"])
-@login_required
+# @login_required
 def delete():
     """Delete stock from Inventory"""
 
 
-    if request.method == "POST":
+#     if request.method == "POST":
 
-        # Ensure username was submitted
+#         # Ensure username was submitted
 
-    # User reached route via GET (as by clicking a link or via redirect)
-        return render_template("buy.html")
+#     # User reached route via GET (as by clicking a link or via redirect)
+#         return render_template("buy.html")
 
 
 @app.route("/add", methods=["GET", "POST"])
-@login_required
+# @login_required
 def add():
     """Add stock to Inventory"""
 
 
-    if request.method == "POST":
+#     if request.method == "POST":
 
         # Ensure username was submitted
 
     # User reached route via GET (as by clicking a link or via redirect)
-        return render_template("buy.html")
+        # return render_template("buy.html")
 
 
 @app.route("/notify")
-@login_required
+# @login_required
 def notify():
     """Notify the need for Re-stocking"""
 
 
-    if request.method == "POST":
+#     if request.method == "POST":
 
-        return render_template("buy.html")
+#         return render_template("buy.html")
 
 
 @app.route("/history")
-@login_required
+# @login_required
 def history():
     """Show history of transactions"""
-    user = session["user_id"]
-    shares = db.execute("SELECT * FROM history WHERE user = :user", user = user)
-    return render_template("history.html", shares=shares)
+    if request.method == 'GET':
+        print("hello")
+        items = db.execute("SELECT users.username, history.id, history.item_name, history.activity, history.date FROM users INNER JOIN history ON users.id = history.user_id")
+        print(items)
+        return render_template("history.html", items=items)
 
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    """Log user in"""
-    # Forget any user_id
-    session.clear()
+# @app.route("/login", methods=["GET", "POST"])
+# def login():
+#     """Log user in"""
+#     # Forget any user_id
+#     session.clear()
 
-    # User reached route via POST (as by submitting a form via POST)
-    if request.method == "POST":
+#     # User reached route via POST (as by submitting a form via POST)
+#     if request.method == "POST":
 
-        # Ensure username was submitted
-        return redirect("/")
+#         # Ensure username was submitted
+#         return redirect("/")
 
-    # User reached route via GET (as by clicking a link or via redirect)
-    else:
-        return render_template("login.html")
-
-
-@app.route("/logout")
-def logout():
-    """Log user out"""
-
-    # Forget any user_id
-    session.clear()
-
-    # Redirect user to login form
-    return redirect("/")
+#     # User reached route via GET (as by clicking a link or via redirect)
+#     else:
+#         return render_template("login.html")
 
 
-@app.route("/register", methods=["GET", "POST"])
-def register():
-    """Register user"""
-    return render_template("/login.html", msg="registration successful, login.")
+# @app.route("/logout")
+# def logout():
+#     """Log user out"""
+
+#     # Forget any user_id
+#     session.clear()
+
+#     # Redirect user to login form
+#     return redirect("/")
+
+
+# @app.route("/register", methods=["GET", "POST"])
+# def register():
+#     """Register user"""
+#     return render_template("/login.html", msg="registration successful, login.")
+
+@app.route("/users", methods=["GET", "POST"])
+def users():
+    """Add a User"""
+    if request.method == "GET":
+        userData = db.execute("SELECT username, role FROM users")
+        print(userData)
+        return render_template("users.html",userData=userData)
+    elif request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        confirm = request.form.get("confirm")
+        role = request.form.get("role")
+
+        if password != confirm:
+            return apology("Password Mismatch")
+        if not username:
+            return apology("You must input a username")
+        if not role:
+            return apology("You must choose a role")
+        
+        hash = generate_password_hash(password, method='pbkdf2:sha256', salt_length=8)
+        # print("hash=", hash)
+
+        rows = db.execute("INSERT INTO users (username, hash, role) VALUES (:username, :hash, :role)", username=username, hash=hash, role=role)
+        # print("rows=",rows)
+        return render_template("users.html")
 
 
 def errorhandler(e):
