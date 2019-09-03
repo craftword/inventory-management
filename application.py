@@ -33,18 +33,18 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///inventory.db")
 
-# @app.route("/")
+@app.route("/")
 # @login_required
-# def index():
-#     # """"Index""""
+def index():
+    # """"Index""""
 
 #     return render_template("index.html")
 
 
-# @app.route("/withdraw", methods=["GET", "POST"])
+@app.route("/withdraw", methods=["GET", "POST"])
 # @login_required
-# def withdraw():
-#     """withdraw stock"""
+def withdraw():
+    """withdraw stock"""
 
 
 #     if request.method == "POST":
@@ -53,10 +53,10 @@ db = SQL("sqlite:///inventory.db")
 #         return render_template("index.html")
 
 
-# @app.route("/delete", methods=["GET", "POST"])
+@app.route("/delete", methods=["GET", "POST"])
 # @login_required
-# def delete():
-#     """Delete stock from Inventory"""
+def delete():
+    """Delete stock from Inventory"""
 
 
 #     if request.method == "POST":
@@ -67,10 +67,10 @@ db = SQL("sqlite:///inventory.db")
 #         return render_template("buy.html")
 
 
-# @app.route("/add", methods=["GET", "POST"])
+@app.route("/add", methods=["GET", "POST"])
 # @login_required
-# def add():
-#     """Add stock to Inventory"""
+def add():
+    """Add stock to Inventory"""
 
 
 #     if request.method == "POST":
@@ -81,10 +81,10 @@ db = SQL("sqlite:///inventory.db")
         # return render_template("buy.html")
 
 
-# @app.route("/notify")
+@app.route("/notify")
 # @login_required
-# def notify():
-#     """Notify the need for Re-stocking"""
+def notify():
+    """Notify the need for Re-stocking"""
 
 
 #     if request.method == "POST":
@@ -92,7 +92,7 @@ db = SQL("sqlite:///inventory.db")
 #         return render_template("buy.html")
 
 
-@app.route("/history", methods=["GET"])
+@app.route("/history")
 # @login_required
 def history():
     """Show history of transactions"""
@@ -135,6 +135,33 @@ def history():
 # def register():
 #     """Register user"""
 #     return render_template("/login.html", msg="registration successful, login.")
+
+@app.route("/users", methods=["GET", "POST"])
+def users():
+    """Add a User"""
+    if request.method == "GET":
+        userData = db.execute("SELECT username, role FROM users")
+        print(userData)
+        return render_template("users.html",userData=userData)
+    elif request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        confirm = request.form.get("confirm")
+        role = request.form.get("role")
+
+        if password != confirm:
+            return apology("Password Mismatch")
+        if not username:
+            return apology("You must input a username")
+        if not role:
+            return apology("You must choose a role")
+        
+        hash = generate_password_hash(password, method='pbkdf2:sha256', salt_length=8)
+        # print("hash=", hash)
+
+        rows = db.execute("INSERT INTO users (username, hash, role) VALUES (:username, :hash, :role)", username=username, hash=hash, role=role)
+        # print("rows=",rows)
+        return render_template("users.html")
 
 
 def errorhandler(e):
