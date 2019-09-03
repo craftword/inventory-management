@@ -8,7 +8,7 @@ from werkzeug.exceptions import default_exceptions, HTTPException, InternalServe
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 
-from helpers import apology, login_required
+from helper import apology, login_required
 
 # Configure application
 app = Flask(__name__)
@@ -31,14 +31,14 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Configure CS50 Library to use SQLite database
-db = SQL("sqlite:///finance.db")
+db = SQL("sqlite:///inventory.db")
 
 @app.route("/")
 @login_required
 def index():
-     """"Index""""
+    # """"Index""""
 
-    return render_template()
+    return render_template("index.html")
 
 
 @app.route("/withdraw", methods=["GET", "POST"])
@@ -50,7 +50,7 @@ def withdraw():
     if request.method == "POST":
 
         
-return render_template()
+        return render_template("index,html")
 
 
 @app.route("/delete", methods=["GET", "POST"])
@@ -64,7 +64,6 @@ def delete():
         # Ensure username was submitted
 
     # User reached route via GET (as by clicking a link or via redirect)
-    else:
         return render_template("buy.html")
 
 
@@ -79,7 +78,6 @@ def add():
         # Ensure username was submitted
 
     # User reached route via GET (as by clicking a link or via redirect)
-    else:
         return render_template("buy.html")
 
 
@@ -91,7 +89,6 @@ def notify():
 
     if request.method == "POST":
 
-    else:
         return render_template("buy.html")
 
 
@@ -114,7 +111,7 @@ def login():
     if request.method == "POST":
 
         # Ensure username was submitted
-    return redirect("/")
+        return redirect("/")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
