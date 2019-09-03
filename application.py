@@ -45,9 +45,15 @@ def index():
 # @login_required
 def withdraw():
     """withdraw stock"""
-#if request.method == "POST":
-        
-    return render_template("index.html")
+    id = request.args.get('id')
+    qty = request.args.get('new_qty') 
+    sql = "UPDATE items SET quantity = %s WHERE id = %s" %(qty, id)   
+    row = db.execute(sql)
+                    
+    if row:
+         return jsonify({'msg':'successful updated'})
+    else:
+         return jsonify({'msg':'cannot quantity to the items'})
 
 
 @app.route("/delete", methods=["GET", "POST"])

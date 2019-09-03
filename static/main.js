@@ -26,3 +26,37 @@
 
     
 });
+
+// remove stock    
+$(document).on("click", '.minus', function(e){
+    e.preventDefault();
+    let current_qty = parseInt($(this).attr("id"));
+    let qty = prompt("Enter quantity");
+    let id = $(this).attr("name");
+    let new_qty = current_qty - parseInt(qty)
+    if(new_qty > 0) {
+        $.ajax({	
+            
+            url:'withdraw',
+            type:'GET',
+            data:{id:id, new_qty:new_qty},
+            dataType: 'json',
+            success:function(data) {
+                alert(data.msg)
+                location.reload();
+                    
+            },
+            error: function(){
+               alert('something went wrong'); 
+            }				
+        }); 
+
+    } else {
+        alert('stock not enough'); 
+    }
+    
+      
+    
+
+    
+});
