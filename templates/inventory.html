@@ -8,7 +8,9 @@
             Add Item
         </button>
     </div>
-    
+    <p>
+        
+    </p>
     <div class="row d-flex justify-content-center h-100">
         <div class="card">
             <div class="card-header">
@@ -22,9 +24,9 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Quantity</th>                                    
-                                    <th scope="col"></th>
-                                    <th scope="col"></th>
+                                    <th scope="col">Add/Remove Quantity</th>                                    
                                     <th scope="col">Date</th>
+                                    <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -33,9 +35,9 @@
                                         <td>{{e['id']}} </td>
                                         <td>{{e['name']}} </td>
                                         <td>{{e['quantity']}} </td>                                        
-                                        <td><a href="#">+</a> | <a href="#">-</a> </td>
-                                        <td>YHH </td>
-                                        <td>{{e['date']}} </td>                                        
+                                        <td><a href="#" name='{{e["id"]}}'>+</a> | <a href="#" name='{{e["id"]}}'>-</a> </td>                                        
+                                        <td>{{e['date']}} </td> 
+                                        <td><a href='view.html?{{e["id"]}}' class='btn btn-xs btn-primary'>view</a> <a href='#' class='btn btn-xs btn-danger' name='{{e["id"]}}'>Delete</a></td>                                       
         
                                     </tr>
                                     {% endfor %}

@@ -34,27 +34,20 @@ Session(app)
 db = SQL("sqlite:///inventory.db")
 
 @app.route("/")
-<<<<<<< HEAD
-#@login_required
-=======
 # @login_required
->>>>>>> f8fdb9cbe248ede6ec256d646d56f58dc04c5a41
 def index():
     # """"Index""""
 
-#     return render_template("index.html")
+    return render_template("index.html")
 
 
 @app.route("/withdraw", methods=["GET", "POST"])
 # @login_required
 def withdraw():
     """withdraw stock"""
-
-
-#     if request.method == "POST":
-
+#if request.method == "POST":
         
-#         return render_template("index.html")
+    return render_template("index.html")
 
 
 @app.route("/delete", methods=["GET", "POST"])
@@ -75,13 +68,9 @@ def delete():
 # @login_required
 def add():
     """Add stock to Inventory"""
-<<<<<<< HEAD
-    if request.method == "POST":       
-=======
 
 
 #     if request.method == "POST":
->>>>>>> f8fdb9cbe248ede6ec256d646d56f58dc04c5a41
 
         # Ensure username was submitted
 
