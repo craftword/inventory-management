@@ -2,10 +2,50 @@
 
 {% block main %}
 <div class="container-fluid">
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
-        Add Item
-    </button>
+    <div class="row">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+            Add Item
+        </button>
+    </div>
+    
+    <div class="row d-flex justify-content-center h-100">
+        <div class="card">
+            <div class="card-header">
+               <h3>List of Items</h3> 
+            </div>
+            <div class="card-body">
+                <div class="table-responsive-md">
+                    <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Quantity</th>                                    
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    {% for e in items %}
+                                    <tr>
+                                        <td>{{e['id']}} </td>
+                                        <td>{{e['name']}} </td>
+                                        <td>{{e['quantity']}} </td>                                        
+                                        <td><a href="#">+</a> | <a href="#">-</a> </td>
+                                        <td>YHH </td>
+                                        <td>{{e['date']}} </td>                                        
+        
+                                    </tr>
+                                    {% endfor %}
+        
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 <!-- Modal -->
@@ -19,7 +59,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="/inventory">
+        <form action="/inventory" method="POST">
             <div class="form-row">             
                 <div class="col-xs-6">
                     <div class="form-group">

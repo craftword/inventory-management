@@ -71,9 +71,7 @@ def delete():
 @login_required
 def add():
     """Add stock to Inventory"""
-
-
-    if request.method == "POST":
+    if request.method == "POST":       
 
         # Ensure username was submitted
 
@@ -86,9 +84,26 @@ def add():
 def inventory():
     """Notify the need for Re-stocking"""
     if request.method == "POST":
-  
+        itemName = request.form.get('name')
+        quantity = request.form.get('quantity')
+        thumbnail = request.form.get('thumbnail')
+        user_id = 1
+        date  = str(datetime.now())
+        sql = "INSERT INTO items (name, quantity, thumbnail, date, user_id) VALUES ('%s', %s, '%s', '%s', %s)" %(itemName, quantity, thumbnail, date, user_id)
+        
+        row = db.execute(sql)
+        print(row)
+        if row:
+            # check if insert item is successfull
+            #session["user_id"] = row
+            return redirect("/inventory")
+        else:
+            return redirect("/")
     else:
-        return render_template("inventory.html")
+        sql = "SELECT * FROM items"
+        items = db.execute(sql)
+        print(items)
+        return render_template("inventory.html", items=items)
 
 @app.route("/notify")
 @login_required
