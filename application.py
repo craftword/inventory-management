@@ -34,7 +34,7 @@ Session(app)
 db = SQL("sqlite:///inventory.db")
 
 @app.route("/")
-@login_required
+#@login_required
 def index():
     # """"Index""""
 
@@ -80,6 +80,15 @@ def add():
     # User reached route via GET (as by clicking a link or via redirect)
         return render_template("buy.html")
 
+
+@app.route("/inventory", methods=["GET", "POST"])
+#@login_required
+def inventory():
+    """Notify the need for Re-stocking"""
+    if request.method == "POST":
+  
+    else:
+        return render_template("inventory.html")
 
 @app.route("/notify")
 @login_required
