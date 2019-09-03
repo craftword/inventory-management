@@ -138,7 +138,9 @@ def register():
 def users():
     """Add a User"""
     if request.method == "GET":
-        return render_template("users.html")
+        userData = db.execute("SELECT username, role FROM users")
+        print(userData)
+        return render_template("users.html",userData=userData)
     elif request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
@@ -155,9 +157,9 @@ def users():
         hash = generate_password_hash(password, method='pbkdf2:sha256', salt_length=8)
         # print("hash=", hash)
 
-        row = db.execute("INSERT INTO users (username, hash, role) VALUES (:username, :hash, :role)", username=username, hash=hash, role=role)
-        print("row=",row)
-        return render_template("/users", row=row)
+        rows = db.execute("INSERT INTO users (username, hash, role) VALUES (:username, :hash, :role)", username=username, hash=hash, role=role)
+        # print("rows=",rows)
+        return render_template("users.html")
 
 
 def errorhandler(e):
