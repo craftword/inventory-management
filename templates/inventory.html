@@ -37,7 +37,7 @@
                                         <td>{{e['quantity']}} </td>                                        
                                         <td><strong><a href='#' name='{{e["id"]}}' class='plus' id='{{e["quantity"]}}'><i class="fa fa-plus" aria-hidden="true"></i></a> | <a href='#' name='{{e["id"]}}' class='minus' id='{{e["quantity"]}}'><i class="fa fa-minus" aria-hidden="true"></i></a> </strong></td>                                        
                                         <td>{{e['date']}} </td> 
-                                        <td><a href='view.html?{{e["id"]}}' class='btn btn-xs btn-primary'>view</a> <a href='#' class='btn btn-xs btn-danger' name='{{e["id"]}}'>Delete</a></td>                                       
+                                        <td><a href='view.html?{{e["id"]}}' class='btn btn-xs btn-primary'>view</a> <a href='#' class='btn btn-xs btn-danger remove_item' name='{{e["id"]}}'>Delete</a></td>                                       
         
                                     </tr>
                                     {% endfor %}

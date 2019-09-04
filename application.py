@@ -56,18 +56,19 @@ def withdraw():
          return jsonify({'msg':'cannot quantity to the items'})
 
 
-@app.route("/delete", methods=["GET", "POST"])
+@app.route("/delete_item", methods=["GET"])
 # @login_required
 def delete():
     """Delete stock from Inventory"""
+    id = request.args.get('id')
+    sql = "DELETE FROM items WHERE id=%s" %(id)
+    row = db.execute(sql)
+                    
+    if row:
+         return jsonify({'msg':'item deleted successfully'})
+    else:
+         return jsonify({'msg':'cannot delete items'})
 
-
-#     if request.method == "POST":
-
-#         # Ensure username was submitted
-
-#     # User reached route via GET (as by clicking a link or via redirect)
-#         return render_template("buy.html")
 
 
 @app.route("/add", methods=["GET"])

@@ -60,3 +60,29 @@ $(document).on("click", '.minus', function(e){
 
     
 });
+
+//DELETE ITEM
+$(document).on("click", '.remove_item', function(event){
+    event.preventDefault();
+    let checkConfirm = confirm('Are You Sure You Want Delete It');
+    if(checkConfirm == true) {
+         let id = $(this).attr("name");
+    
+    $.ajax({
+        url: 'delete_item',
+        type:'GET',
+        data:{id:id},
+        dataType: 'json',
+        success : function(data){
+            alert(data.msg);
+           location.reload(true);
+        },
+        error: function(){
+           alert('something went wrong'); 
+        }
+    });
+    } else {
+        location.reload(true);
+    }
+   
+}); 
