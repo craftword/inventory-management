@@ -66,10 +66,10 @@
           {% for data in userData %}
 
           <tr>
-            <th scope="data">1</th>
+            <th scope="data">{{(userData.index(data) + 1)}}</th>
             <td>{{data.username}}</td>
             <td>{{data.role}}</td>
-            <td>Something</td>
+            <td><a href="#" class="btn btn-outline-danger btn-sm remove_user" name="{{ data.id }}">Remove</a></td>
           </tr>
 
           {% endfor %}
