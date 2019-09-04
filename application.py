@@ -135,22 +135,38 @@ def history():
         return render_template("history.html", items=items)
 
 
-# @app.route("/login", methods=["GET", "POST"])
-# def login():
-#     """Log user in"""
-#     # Forget any user_id
-#     session.clear()
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    """Log user in"""
+    # Forget any user_id
+    session.clear()
 
-#     # User reached route via POST (as by submitting a form via POST)
-#     if request.method == "POST":
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+       
+        userName = request.form.get("username")
+        passWord = request.form.get("password")
 
-#         # Ensure username was submitted
-#         return redirect("/")
+         # Ensure username was submitted
+        if not userName or not passWord:
+            return apology("Please provide username and password", 403)
+        print("am here")
+        #Query database for username 
+        rows = db.execute("SELECT * FROM users WHERE username = :username", username=userName)
 
-#     # User reached route via GET (as by clicking a link or via redirect)
-#     else:
-#         return render_template("login.html")
+        print(rows)        
+                # Ensure username exists and password is correct
+        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], passWord):
+            return apology("invalid username and/or password", 403)
+        
+         # Remember which user has logged in
+        session["id"] = rows[0]["id"]
+        
+        # Redirect user to home page
+        return redirect("/")
 
+    else:
+        return render_template("login.html")
 
 # @app.route("/logout")
 # def logout():
@@ -168,11 +184,13 @@ def history():
 #     """Register user"""
 #     return render_template("/login.html", msg="registration successful, login.")
 
+
+# add users
 @app.route("/users", methods=["GET", "POST"])
 def users():
     """Add a User"""
     if request.method == "GET":
-        userData = db.execute("SELECT username, role FROM users")
+        userData = db.execute("SELECT id, username, role FROM users")
         print(userData)
         return render_template("users.html", userData=userData)
     elif request.method == "POST":
@@ -194,6 +212,18 @@ def users():
         rows = db.execute("INSERT INTO users (username, hash, role) VALUES (:username, :hash, :role)", username=username, hash=hash, role=role)
         # print("rows=",rows)
         return redirect("/users")
+
+
+@app.route("/remove_user", methods=["GET"])
+def removeUser():
+    """Remove User"""
+    id = request.args.get("id")
+    row = db.execute("DELETE FROM users where id=:id", id=id)
+
+    if row:
+        return jsonify({'msg':'User deleted successfully'})
+    return jsonify({'msg':'Something went wrong'})
+
 
 
 def errorhandler(e):
