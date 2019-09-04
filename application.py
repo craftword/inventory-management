@@ -40,7 +40,7 @@ def index():
 
     return render_template("index.html")
 
-
+### 
 @app.route("/withdraw")
 # @login_required
 def withdraw():
@@ -95,7 +95,7 @@ def inventory():
         itemName = request.form.get('name')
         quantity = request.form.get('quantity')
         thumbnail = request.form.get('thumbnail')
-        user_id = 1
+        user_id = session["user_id"]
         date  = str(datetime.now())
         sql = "INSERT INTO items (name, quantity, thumbnail, date, user_id) VALUES ('%s', %s, '%s', '%s', %s)" %(itemName, quantity, thumbnail, date, user_id)
         
@@ -190,7 +190,7 @@ def users():
     if request.method == "GET":
         userData = db.execute("SELECT username, role FROM users")
         print(userData)
-        return render_template("users.html",userData=userData)
+        return render_template("users.html", userData=userData)
     elif request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
@@ -209,7 +209,7 @@ def users():
 
         rows = db.execute("INSERT INTO users (username, hash, role) VALUES (:username, :hash, :role)", username=username, hash=hash, role=role)
         # print("rows=",rows)
-        return render_template("users.html")
+        return redirect("/users")
 
 
 def errorhandler(e):
