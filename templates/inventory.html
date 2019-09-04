@@ -1,0 +1,97 @@
+{% extends "layout.html" %} 
+
+{% block main %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+            Add Item
+        </button>
+    </div>
+    <p>
+        
+    </p>
+    <div class="row d-flex justify-content-center h-100">
+        <div class="card">
+            <div class="card-header">
+               <h3>List of Items</h3> 
+            </div>
+            <div class="card-body">
+                <div class="table-responsive-md">
+                    <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Quantity</th>                                    
+                                    <th scope="col">Add/Remove Quantity</th>                                    
+                                    <th scope="col">Date</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    {% for e in items %}
+                                    <tr>
+                                        <td>{{e['id']}} </td>
+                                        <td>{{e['name']}} </td>
+                                        <td>{{e['quantity']}} </td>                                        
+                                        <td><strong><a href='#' name='{{e["id"]}}' class='plus' id='{{e["quantity"]}}'><i class="fa fa-plus" aria-hidden="true"></i></a> | <a href='#' name='{{e["id"]}}' class='minus' id='{{e["quantity"]}}'><i class="fa fa-minus" aria-hidden="true"></i></a> </strong> {% if e["quantity"] < 10 %} <span><img src="/static/caution.jpg" /></span> {% endif %}</td>                                        
+                                        <td>{{e['date']}} </td> 
+                                        <td><a href='view.html?{{e["id"]}}' class='btn btn-xs btn-primary'>view</a> <a href='#' class='btn btn-xs btn-danger remove_item' name='{{e["id"]}}'>Delete</a></td>                                       
+        
+                                    </tr>
+                                    {% endfor %}
+        
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Add Items To Inventory</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/inventory" method="POST">
+            <div class="form-row">             
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Enter Item Name"  name="name">
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                   <div class="form-group">
+                      <input type="text" class="form-control" placeholder="Enter Quantity"  name="quantity">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">           
+                             
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Enter Thumbnail Url"  name="thumbnail">
+                    </div>
+                </div>
+             
+            </div>        
+      </div>
+      <div class="modal-footer">
+         <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

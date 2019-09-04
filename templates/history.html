@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block main %}
+{{item}}
+<table class="table table-hovered table-dark">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">NAME</th>
+            <th scope="col">ITEM</th>
+            <th scope="col">ACTIVITY</th>
+            <th scope="col">DATE</th>
+        </tr>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{item.id}}</td>
+            <td>{{item.username}}</td>
+            <td>{{item.item_name}}</td>
+            <td>{{item.activity}}</td>
+            <td>{{item.date}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </thead>
+    
+</table>
+{% endblock %}

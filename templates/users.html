@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+
+
+{% block main %}
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+  Add User
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Add User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form action="/users" method="POST">
+          <div class="form-row mb-3">
+            <div class="col">
+              <input type="text" class="form-control" placeholder="Username" name="username">
+            </div>
+            <div class="col">
+              <select id="inputState" class="form-control" name="role">
+                  <option selected value="" disabled>Choose...</option>
+                  <option value="administrator">Administrator</option>
+                  <option value="storeKeeper">Store Keeper</option>
+                  <option value="salesPerson">Sales Person</option>
+              </select>     
+            </div>
+          </div>
+
+          <div class="form-row mb-3">
+            <div class="col">
+              <input type="password" class="form-control" placeholder="Password" name="password">
+            </div>
+            <div class="col">
+              <input type="password" class="form-control" placeholder="Confirm Password" name="confirm">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-5">
+    <table class="table table-hover table-dark">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">USERNAME</th>
+            <th scope="col">ROLE</th>
+            <th scope="col">OPTIONS</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for data in userData %}
+
+          <tr>
+            <th scope="data">1</th>
+            <td>{{data.username}}</td>
+            <td>{{data.role}}</td>
+            <td>Something</td>
+          </tr>
+
+          {% endfor %}
+
+        </tbody>
+        
+      </table>
+</div>
+{% endblock %}
