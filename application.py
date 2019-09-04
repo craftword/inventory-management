@@ -38,48 +38,80 @@ db = SQL("sqlite:///inventory.db")
 def index():
     # """"Index""""
 
-#     return render_template("index.html")
+    return render_template("index.html")
 
 
-@app.route("/withdraw", methods=["GET", "POST"])
+@app.route("/withdraw")
 # @login_required
 def withdraw():
     """withdraw stock"""
+    id = request.args.get('id')
+    qty = request.args.get('new_qty') 
+    sql = "UPDATE items SET quantity = %s WHERE id = %s" %(qty, id)   
+    row = db.execute(sql)
+                    
+    if row:
+         return jsonify({'msg':'successful updated'})
+    else:
+         return jsonify({'msg':'cannot quantity to the items'})
 
 
-#     if request.method == "POST":
-
-        
-#         return render_template("index.html")
-
-
-@app.route("/delete", methods=["GET", "POST"])
+@app.route("/delete_item", methods=["GET"])
 # @login_required
 def delete():
     """Delete stock from Inventory"""
+    id = request.args.get('id')
+    sql = "DELETE FROM items WHERE id=%s" %(id)
+    row = db.execute(sql)
+                    
+    if row:
+         return jsonify({'msg':'item deleted successfully'})
+    else:
+         return jsonify({'msg':'cannot delete items'})
 
 
-#     if request.method == "POST":
 
-#         # Ensure username was submitted
-
-#     # User reached route via GET (as by clicking a link or via redirect)
-#         return render_template("buy.html")
-
-
-@app.route("/add", methods=["GET", "POST"])
+@app.route("/add", methods=["GET"])
 # @login_required
 def add():
     """Add stock to Inventory"""
+    id = request.args.get('id')
+    qty = request.args.get('new_qty') 
+    sql = "UPDATE items SET quantity = %s WHERE id = %s" %(qty, id)   
+    row = db.execute(sql)
+                    
+    if row:
+         return jsonify({'msg':'successful updated'})
+    else:
+         return jsonify({'msg':'cannot quantity to the items'})
 
 
-#     if request.method == "POST":
 
-        # Ensure username was submitted
-
-    # User reached route via GET (as by clicking a link or via redirect)
-        # return render_template("buy.html")
-
+@app.route("/inventory", methods=["GET", "POST"])
+#@login_required
+def inventory():
+    """Notify the need for Re-stocking"""
+    if request.method == "POST":
+        itemName = request.form.get('name')
+        quantity = request.form.get('quantity')
+        thumbnail = request.form.get('thumbnail')
+        user_id = 1
+        date  = str(datetime.now())
+        sql = "INSERT INTO items (name, quantity, thumbnail, date, user_id) VALUES ('%s', %s, '%s', '%s', %s)" %(itemName, quantity, thumbnail, date, user_id)
+        
+        row = db.execute(sql)
+        print(row)
+        if row:
+            # check if insert item is successfull
+            #session["user_id"] = row
+            return redirect("/inventory")
+        else:
+            return redirect("/")
+    else:
+        sql = "SELECT * FROM items"
+        items = db.execute(sql)
+        print(items)
+        return render_template("inventory.html", items=items)
 
 @app.route("/notify")
 # @login_required
