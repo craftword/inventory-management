@@ -184,11 +184,13 @@ def login():
 #     """Register user"""
 #     return render_template("/login.html", msg="registration successful, login.")
 
+
+# add users
 @app.route("/users", methods=["GET", "POST"])
 def users():
     """Add a User"""
     if request.method == "GET":
-        userData = db.execute("SELECT username, role FROM users")
+        userData = db.execute("SELECT id, username, role FROM users")
         print(userData)
         return render_template("users.html", userData=userData)
     elif request.method == "POST":
@@ -210,6 +212,18 @@ def users():
         rows = db.execute("INSERT INTO users (username, hash, role) VALUES (:username, :hash, :role)", username=username, hash=hash, role=role)
         # print("rows=",rows)
         return redirect("/users")
+
+
+@app.route("/remove_user", methods=["GET"])
+def removeUser():
+    """Remove User"""
+    id = request.args.get("id")
+    row = db.execute("DELETE FROM users where id=:id", id=id)
+
+    if row:
+        return jsonify({'msg':'User deleted successfully'})
+    return jsonify({'msg':'Something went wrong'})
+
 
 
 def errorhandler(e):

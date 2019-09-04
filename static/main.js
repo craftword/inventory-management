@@ -74,6 +74,7 @@ $(document).on("click", '.remove_item', function(event){
         data:{id:id},
         dataType: 'json',
         success : function(data){
+            // console.log(data);
             alert(data.msg);
            location.reload(true);
         },
@@ -86,3 +87,29 @@ $(document).on("click", '.remove_item', function(event){
     }
    
 }); 
+
+// Remove User
+$(document).on('click', '.remove_user', function(e) {
+    e.preventDefault();
+    let removeUser = confirm("Are you sure you want to remove this user?");
+    if (removeUser) {
+        let id = $(this).attr("name")
+
+        $.ajax({
+            type: "GET",
+            url: "remove_user",
+            data: {id:id},
+            dataType: "json",
+            success: function (data) {
+                alert(data.msg);
+                location.reload(true);
+            },
+            error: function(){
+                alert("Something went wrong");
+            }
+        });
+    }
+    else {
+        location.reload(true);
+    }
+});
