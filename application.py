@@ -95,7 +95,7 @@ def inventory():
         itemName = request.form.get('name')
         quantity = request.form.get('quantity')
         thumbnail = request.form.get('thumbnail')
-        user_id = 1
+        user_id = session["user_id"]
         date  = str(datetime.now())
         sql = "INSERT INTO items (name, quantity, thumbnail, date, user_id) VALUES ('%s', %s, '%s', '%s', %s)" %(itemName, quantity, thumbnail, date, user_id)
         
