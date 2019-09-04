@@ -163,7 +163,7 @@ def login():
         session["id"] = rows[0]["id"]
         
         # Redirect user to home page
-        return redirect("/index")
+        return redirect("/")
 
     else:
         return render_template("login.html")
