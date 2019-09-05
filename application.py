@@ -37,8 +37,10 @@ db = SQL("sqlite:///inventory.db")
 # @login_required
 def index():
     # """"Index""""
+    items = db.execute("SELECT name, quantity, thumbnail FROM items")
+    print("items =",items)
 
-    return render_template("index.html")
+    return render_template("index.html", items=items)
 
 ### 
 @app.route("/withdraw")
@@ -95,7 +97,8 @@ def inventory():
         itemName = request.form.get('name')
         quantity = request.form.get('quantity')
         thumbnail = request.form.get('thumbnail')
-        user_id = session["user_id"]
+        # user_id = session["user_id"]
+        user_id = 1
         date  = str(datetime.now())
         sql = "INSERT INTO items (name, quantity, thumbnail, date, user_id) VALUES ('%s', %s, '%s', '%s', %s)" %(itemName, quantity, thumbnail, date, user_id)
         
