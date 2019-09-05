@@ -10,7 +10,7 @@
             
         url:'add',
         type:'GET',
-        data:{id:id, new_qty:new_qty},
+        data:{id:id, new_qty:new_qty, qty:qty},
         dataType: 'json',
         success:function(data) {
             alert(data.msg)
@@ -39,7 +39,7 @@ $(document).on("click", '.minus', function(e){
             
             url:'withdraw',
             type:'GET',
-            data:{id:id, new_qty:new_qty},
+            data:{id:id, new_qty:new_qty, qty:qty},
             dataType: 'json',
             success:function(data) {
                 alert(data.msg)

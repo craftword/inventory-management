@@ -34,12 +34,3 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-def item_log(message, item_name):
-    user_id = session["user_id"]
-    date  = str(datetime.now())
-
-    sql = "INSERT INTO history (item_name, activity, user_id, date) VALUES ('%s', %s, '%s', '%s')" %(item_name, message, user_id, date)
-    row = db.execute(sql)
-
-    if row:
-        return True

@@ -33,6 +33,23 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///inventory.db")
 
+# function to track and store activities history
+def item_log(message, item_id):
+
+    row = db.execute("SELECT name FROM items WHERE id =:item_id", item_id=item_id)
+    print(row[0]['name'])
+    #user_id = session["user_id"]
+    user_id = 1
+    date  = str(datetime.now())
+
+    sql = "INSERT INTO history (item_name, activity, user_id, date) VALUES ('%s', '%s', %s, '%s')" %(row[0]['name'], message, user_id, date)
+    row = db.execute(sql)
+
+    if row:
+        return True
+
+
+
 @app.route("/")
 # @login_required
 def index():
@@ -51,6 +68,8 @@ def withdraw():
     row = db.execute(sql)
                     
     if row:
+         message = "%s has been removed from the stock" %(request.args.get('qty'))
+         item_log(message, id)
          return jsonify({'msg':'successful updated'})
     else:
          return jsonify({'msg':'cannot quantity to the items'})
@@ -61,10 +80,12 @@ def withdraw():
 def delete():
     """Delete stock from Inventory"""
     id = request.args.get('id')
+    message = "Item Deleted"
+    item_log(message, id)
     sql = "DELETE FROM items WHERE id=%s" %(id)
     row = db.execute(sql)
                     
-    if row:
+    if row:         
          return jsonify({'msg':'item deleted successfully'})
     else:
          return jsonify({'msg':'cannot delete items'})
@@ -81,6 +102,8 @@ def add():
     row = db.execute(sql)
                     
     if row:
+         message = "%s is added to the stock" %(request.args.get('qty'))
+         item_log(message, id)
          return jsonify({'msg':'successful updated'})
     else:
          return jsonify({'msg':'cannot quantity to the items'})
@@ -95,15 +118,16 @@ def inventory():
         itemName = request.form.get('name')
         quantity = request.form.get('quantity')
         thumbnail = request.form.get('thumbnail')
-        user_id = session["user_id"]
+        #user_id = session["user_id"]
+        user_id = 1
         date  = str(datetime.now())
         sql = "INSERT INTO items (name, quantity, thumbnail, date, user_id) VALUES ('%s', %s, '%s', '%s', %s)" %(itemName, quantity, thumbnail, date, user_id)
         
         row = db.execute(sql)
         print(row)
         if row:
-            # check if insert item is successfull
-            #session["user_id"] = row
+            message = "Item Created with %s stocks" %(quantity)
+            item_log(message, row)
             return redirect("/inventory")
         else:
             return redirect("/")
@@ -131,7 +155,7 @@ def history():
     if request.method == 'GET':
         print("hello")
         items = db.execute("SELECT users.username, history.id, history.item_name, history.activity, history.date FROM users INNER JOIN history ON users.id = history.user_id")
-        print(items)
+        #print(items)
         return render_template("history.html", items=items)
 
 
