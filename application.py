@@ -51,7 +51,7 @@ def item_log(message, item_id):
 
 
 @app.route("/")
-# @login_required
+#@login_required
 def index():
     # """"Index""""
 

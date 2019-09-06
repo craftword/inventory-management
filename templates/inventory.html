@@ -1,5 +1,10 @@
 {% extends "layout.html" %} 
-
+{% block breadcrumb %}
+<li class="breadcrumb-item">
+    <a href="/">Home</a>
+  </li>
+  <li class="breadcrumb-item active">Inventory</li>
+{% endblock %}
 {% block main %}
 <div class="container-fluid">
     <div class="row">

@@ -22,14 +22,11 @@
       <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand" href="#">
-        <img class="navbar-brand-full" src="../images/bajinventories.png" width="89" height="25" alt="Baj Inventory">
+      <a class="navbar-brand" href="/">
+        <img class="navbar-brand-full" src="/static/bajinventories.png" width="89" height="25" alt="Baj Inventory">
         <img class="navbar-brand-minimized" src="/images/" width="30" height="30" alt="CoreUI Logo">
-      </a>     
-          
-      <button class="navbar-toggler aside-menu-toggler d-md-down-none" type="button" data-toggle="aside-menu-lg-show">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      </a> 
+              
       <button class="navbar-toggler aside-menu-toggler d-lg-none" type="button" data-toggle="aside-menu-show">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -69,11 +66,7 @@
       <main class="main">
         <!-- Breadcrumb-->
         <ol class="breadcrumb">
-          <li class="breadcrumb-item">Home</li>
-          <li class="breadcrumb-item">
-            <a href="#">Admin</a>
-          </li>
-          <li class="breadcrumb-item active">Dashboard</li>
+          {% block breadcrumb %}{% endblock %}
         </ol>
         <div class="container-fluid">
           <div class="animated fadeIn">
