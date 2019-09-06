@@ -37,7 +37,7 @@ db = SQL("sqlite:///inventory.db")
 def item_log(message, item_id):
 
     row = db.execute("SELECT name FROM items WHERE id =:item_id", item_id=item_id)
-    print(row[0]['name'])
+    #print(row[0]['name'])
     #user_id = session["user_id"]
     user_id = 1
     date  = str(datetime.now())
@@ -137,15 +137,19 @@ def inventory():
         print(items)
         return render_template("inventory.html", items=items)
 
-@app.route("/notify")
+@app.route("/view")
 # @login_required
-def notify():
-    """Notify the need for Re-stocking"""
+def view_item():
+    """view an item"""
+    id = request.args.get('id')
+    sql = "SELECT * FROM items WHERE id = %s" %(id)
+    row = db.execute(sql)
+    print(row)
+    if row:
+        return render_template("view.html", row=row)
+    else:
+        return redirect("/")
 
-
-#     if request.method == "POST":
-
-#         return render_template("buy.html")
 
 
 @app.route("/history")
