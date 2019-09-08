@@ -113,3 +113,14 @@ $(document).on('click', '.remove_user', function(e) {
         location.reload(true);
     }
 });
+
+// side bar
+$(document).ready(function () {
+    
+    $('.aside-menu-toggler').on('click', function () {
+        $('body').toggleClass(function(){
+            return $(this).is('.rtl-direction, .ltr-direction') ? 'rtl-direction ltr-direction' : 'rtl-direction';
+        })
+    });
+
+});
