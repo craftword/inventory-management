@@ -894,7 +894,7 @@ template {
 }
 
 .breadcrumb-menu .btn {
-  padding: 0 0.75rem;
+  padding: 0 0.75rem;b
   color: #73818f;
   vertical-align: top;
   border: 0;
@@ -1839,7 +1839,7 @@ html[dir="rtl"] .aside-menu {
   left: 0;
   margin-left: -250px;
 }
-
+/* header */
 @media (min-width: 992px) {
   .header-fixed .app-header {
     position: fixed;
@@ -2588,7 +2588,7 @@ html[dir="rtl"] .aside-menu-show .aside-menu {
 }
 
 .card{
-  height: 500px;
+  height: 500px auto;
   margin-top: auto;
   margin-bottom: auto;
   width: 1400px;
