@@ -1,7 +1,12 @@
 {% extends "layout.html" %}
-
+{% block breadcrumb %}
+<li class="breadcrumb-item">
+    <a href="/">Home</a>
+  </li>
+  <li class="breadcrumb-item active">History</li>
+{% endblock %}
 {% block main %}
-{{item}}
+
 <table class="table table-hovered table-dark">
     <thead>
         <tr>
