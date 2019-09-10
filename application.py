@@ -57,8 +57,10 @@ def item_log(message, item_id):
 @login_required
 def index():
     # """"Index""""
+    items = db.execute("SELECT name, quantity, thumbnail FROM items")
+    print("items =",items)
 
-    return render_template("index.html")
+    return render_template("index.html", items=items)
 
 ###
 @app.route("/withdraw")
