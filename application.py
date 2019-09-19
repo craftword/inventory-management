@@ -57,8 +57,8 @@ def item_log(message, item_id):
 @login_required
 def index():
     # """"Index""""
-    items = db.execute("SELECT name, quantity, thumbnail FROM items")
-    print("items =",items)
+    items = db.execute("SELECT name, quantity, thumbnail, price FROM items")
+    print("items =", items)
 
     return render_template("index.html", items=items)
 
@@ -73,7 +73,7 @@ def withdraw():
     row = db.execute(sql)
 
     if row:
-        message = "%s has been removed from the stock" % (
+        message = "%s stocks has been removed from the stock" % (
             request.args.get('qty'))
         item_log(message, id)
         return jsonify({'msg': 'successful updated'})
@@ -107,7 +107,7 @@ def add():
     row = db.execute(sql)
 
     if row:
-        message = "%s is added to the stock" % (request.args.get('qty'))
+        message = "%s stocks is added to the stock" % (request.args.get('qty'))
         item_log(message, id)
         return jsonify({'msg': 'successful updated'})
     else:
