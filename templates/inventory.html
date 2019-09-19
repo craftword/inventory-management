@@ -1,13 +1,20 @@
 {% extends "layout.html" %} 
-
+{% block breadcrumb %}
+<li class="breadcrumb-item">
+    <a href="/">Home</a>
+  </li>
+  <li class="breadcrumb-item active">Inventory</li>
+{% endblock %}
 {% block main %}
 <div class="container-fluid">
+  {% if session['role'] == 'storeKeeper' %}
     <div class="row">
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
             Add Item
         </button>
     </div>
+    {% endif %}
     <p>
         
     </p>
@@ -30,16 +37,18 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                    
                                     {% for e in items %}
                                     <tr>
-                                        <td>{{e['id']}} </td>
+                                        <td>{{(items.index(e) + 1)}} </td>
                                         <td>{{e['name']}} </td>
                                         <td>{{e['quantity']}} </td>                                        
-                                        <td><strong><a href='#' name='{{e["id"]}}' class='plus' id='{{e["quantity"]}}'><i class="fa fa-plus" aria-hidden="true"></i></a> | <a href='#' name='{{e["id"]}}' class='minus' id='{{e["quantity"]}}'><i class="fa fa-minus" aria-hidden="true"></i></a> </strong></td>                                        
+                                        <td>{% if session['role'] == 'storeKeeper' %}<strong><a href='#' name='{{e["id"]}}' class='plus' id='{{e["quantity"]}}'><i class="fa fa-plus" aria-hidden="true"></i></a> |  {% endif %}<a href='#' name='{{e["id"]}}' class='minus' id='{{e["quantity"]}}'><i class="fa fa-minus" aria-hidden="true"></i></a> </strong> {% if e["quantity"] < 10 %} <span><img src="/static/caution.jpg" /></span> {% endif %}</td>                                        
                                         <td>{{e['date']}} </td> 
-                                        <td><a href='view.html?{{e["id"]}}' class='btn btn-xs btn-primary'>view</a> <a href='#' class='btn btn-xs btn-danger remove_item' name='{{e["id"]}}'>Delete</a></td>                                       
+                                        <td><a href='view?id={{e["id"]}}' class='btn btn-xs btn-primary'>view</a> {% if session['role'] == 'storeKeeper' %}<a href='#' class='btn btn-xs btn-danger remove_item' name='{{e["id"]}}'>Delete</a> {% endif %}</td>                                       
         
                                     </tr>
+                                    
                                     {% endfor %}
         
                             </tbody>
@@ -74,11 +83,16 @@
                     </div>
                 </div>
             </div>
-            <div class="form-row">           
+            <div class="form-row">          
                              
                 <div class="col-xs-6">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Enter Thumbnail Url"  name="thumbnail">
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Enter Price"  name="price">
                     </div>
                 </div>
              

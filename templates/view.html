@@ -1,0 +1,56 @@
+{% extends "layout.html" %} 
+{% block breadcrumb %}
+<li class="breadcrumb-item">Home</li>
+<li class="breadcrumb-item">
+    <a href="/inventory">Inventory</a>
+  </li>
+  <li class="breadcrumb-item active">View</li>
+{% endblock %}
+{% block main %}
+<div class="row d-flex justify-content-center h-100">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card_view">
+                        <div class="card-body">
+                          <h5 class="card-title">ITEM NAME</h5>
+                          <p class="card-text">{{row[0]['name']}}</p>                          
+                        </div>
+                    </div>
+                    <div class="card card_view">
+                        <div class="card-body">
+                          <h5 class="card-title">QUANTITY</h5>
+                          <p class="card-text">{{row[0]['quantity']}}</p>                          
+                        </div>
+                    </div>
+                    <div class="card card_view">
+                        <div class="card-body">
+                          <h5 class="card-title">PRICE</h5>
+                          <p class="card-text">{{row[0]['price']}}</p>                          
+                        </div>
+                    </div>
+                    <div class="card card_view">
+                        <div class="card-body">
+                          <h5 class="card-title">DATE</h5>
+                          <p class="card-text">{{row[0]['date']}}</p>                          
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-center">
+                        <img src="{{row[0]['thumbnail']}}" class="rounded" alt="..." height="400">
+                        
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}
